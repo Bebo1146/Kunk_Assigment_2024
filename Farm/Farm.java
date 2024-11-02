@@ -16,10 +16,6 @@ public class Farm {
         
     }
 
-    // private boolean isValidCoordinate(int x, int y) {
-    //     return x >= 0 && x < myArea.area.length && y >= 0 && y < myArea.area[0].length;
-    // }
-
     // public int[] getOppositeDirection(int x, int y) {
     //     int[] direction = {0, 0};
 

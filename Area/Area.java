@@ -34,6 +34,8 @@ public class Area {
     }
 
     public void AddTypeTo(FieldType type, int x, int y) {
+        System.out.println(x + " " + y);
+
         area[x][y] = new Field(x, y, type);
     }
 
