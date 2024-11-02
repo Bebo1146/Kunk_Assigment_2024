@@ -21,23 +21,21 @@ public class SheepPlacer {
     }
 
     private static void AddSheepsTo(Area area, int amountOfSheeps, IndexPair sheepsStart, IndexPair sheepsFinish){
-        int y = sheepsStart.Y;
-        while(y < sheepsFinish.Y){
-            amountOfSheeps = AddSheepsVerticalyTo(area, sheepsStart.X, sheepsFinish.X, y, amountOfSheeps);
-            y++;
+        int x = sheepsStart.X;
+        while(x < sheepsFinish.X){
+            amountOfSheeps = AddSheepsVerticalyTo(area, sheepsStart.Y, sheepsFinish.Y, x, amountOfSheeps);
+            x++;
         }
     }
 
-    private static int AddSheepsVerticalyTo(Area area, int fromX, int toX, int y, int amountOfSheeps){
-        int counter = fromX;
-        while(counter < toX && amountOfSheeps > 0){
-            area.AddTypeTo(FieldType.SHEEP, counter, y);
+    private static int AddSheepsVerticalyTo(Area area, int fromY, int toY, int x, int amountOfSheeps){
+        int counter = fromY;
+        while(counter < toY && amountOfSheeps > 0){
+            area.AddTypeTo(FieldType.SHEEP, x, counter);
             counter++;
             amountOfSheeps--;
         }
-
-        System.out.println();
-
+        
         return amountOfSheeps;
     }
 }

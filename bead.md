@@ -84,3 +84,11 @@ balrol 4
 
 o	A kutyák a külső nyolc kilenced valamelyikében kezdenek, és folyamatosan itt járőröznek.
 egybe csak basszuk le
+
+executor és executor service
+
+area => Thread pool
+
+mutex ez az utolsóra is jó
+
+lock-olás
