@@ -1,38 +1,24 @@
 package Farm;
 
+import java.util.ArrayList;
+
 import Area.Area;
-import Area.FieldType;
+import FieldEntities.Juh;
 
 public class Farm {
-    public Farm(Area area) {
+    public Farm(Area area, ArrayList<Juh> sheepsOnArea) {
         myArea = area;
+        this.sheepsOnArea = sheepsOnArea;
     }
 
     public void DisplayArea() {
         myArea.Display();
     }
 
-    public void AddSheepsToArea(int from, int till) {
-        
+    public void StartMovingSheeps() {
+        sheepsOnArea.forEach(sheep -> sheep.start());
     }
 
-    // public int[] getOppositeDirection(int x, int y) {
-    //     int[] direction = {0, 0};
-
-    //     if (isDogNearby(x - 1, y)) {
-    //         direction[0] = 1;
-    //     } else if (isDogNearby(x + 1, y)) {
-    //         direction[0] = -1;
-    //     }
-
-    //     if (isDogNearby(x, y - 1)) {
-    //         direction[1] = 1;
-    //     } else if (isDogNearby(x, y + 1)) {
-    //         direction[1] = -1;
-    //     }
-
-    //     return direction;
-    // }
-
-    public Area myArea;
+    private Area myArea;
+    private ArrayList<Juh> sheepsOnArea;
 }

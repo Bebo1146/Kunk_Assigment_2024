@@ -1,4 +1,4 @@
-package Farm.Placers;
+package Area.Placers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,9 @@ import java.util.Random;
 
 import Area.Adjustment;
 import Area.Area;
-import Area.FieldType;
+import Area.Field;
+import Area.IndexPair;
+import FieldEntities.Kutya;
 
 public class DogPlacer {
     public static Area PlaceTo(Area area, int numberOfDogs){
@@ -28,8 +30,11 @@ public class DogPlacer {
                 randomY = RandomNumberBetweenOneAnd(area.GetWidth()  - Adjustment.Value);
             }
 
-            dogPositions.add(new IndexPair(randomX, randomY));
-            area.AddTypeTo(FieldType.DOG, randomX, randomY);
+            IndexPair indexPair = new IndexPair(randomX, randomY);
+            dogPositions.add(indexPair);
+
+            Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kutya(i));
+            area.AddTypeTo(indexPair, field);
         }
 
         return area;
@@ -41,8 +46,8 @@ public class DogPlacer {
     }
 
     private static boolean isSheepArea(int row, int col, IndexPair sheepsStart, IndexPair sheepsFinish) {
-        return row >= sheepsStart.X && row <= sheepsFinish.X
-                && col >= sheepsStart.Y && col <= sheepsFinish.Y;
+        return row >= sheepsStart.GetX() && row <= sheepsFinish.GetX()
+                && col >= sheepsStart.GetY() && col <= sheepsFinish.GetY();
     }
 
     private static boolean isDogThere(int row, int col, List<IndexPair> dogPositions) {

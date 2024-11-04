@@ -1,6 +1,7 @@
-package Farm.Placers;
+package Area.Placers;
 
 import Area.Area;
+import Area.IndexPair;
 
 public class SheepPlaces {
     public static IndexPair GetStartFrom(int lengthByThree, int widthByThree){

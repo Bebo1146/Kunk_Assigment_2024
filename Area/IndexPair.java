@@ -1,14 +1,19 @@
-package Farm.Placers;
+package Area;
 
 import java.util.Objects;
 
 public class IndexPair {
-    public final int X;
-    public final int Y;
+    public int GetX() {
+        return x;
+    }
+
+    public int GetY() {
+        return y;
+    }
 
     public IndexPair(int x, int y) {
-        X = x;
-        Y = y;
+        this.x = x;
+        this.y = y;
     }
 
     @Override
@@ -22,11 +27,14 @@ public class IndexPair {
         }
 
         IndexPair indexPair = (IndexPair)o;
-        return (X == indexPair.X) && (Y == indexPair.Y);
+        return (x == indexPair.GetX()) && (y == indexPair.GetY());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(X, Y);
+        return Objects.hash(x, y);
     }
+
+    public final int x;
+    public final int y;
 }
