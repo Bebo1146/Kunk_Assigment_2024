@@ -15,7 +15,7 @@ public class Field {
     }
 
     public int GetY(){
-       return y;
+        return y;
     }
 
     public FieldEntity GetValue() {

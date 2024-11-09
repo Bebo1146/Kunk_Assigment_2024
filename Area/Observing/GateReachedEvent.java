@@ -1,4 +1,4 @@
-package Area;
+package Area.Observing;
 
 import FieldEntities.Juh;
 

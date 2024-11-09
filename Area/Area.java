@@ -2,11 +2,13 @@ package Area;
 
 import java.util.ArrayList;
 
+import Area.Placers.DogPlacer;
 import Area.Placers.GatePlacer;
 import Area.Placers.SheepPlacer;
 import Area.Placers.WallPlacer;
 import FieldEntities.EmptyField;
 import FieldEntities.Juh;
+import FieldEntities.Kutya;
 
 public class Area {
     public int GetLength() {
@@ -19,6 +21,10 @@ public class Area {
 
     public ArrayList<Juh> GetSheeps() {
         return sheepsOnArea;
+    }
+
+    public ArrayList<Kutya> GetDogs() {
+        return dogsOnArea;
     }
 
     public Area(int length, int width) {
@@ -34,6 +40,15 @@ public class Area {
         sheepPlacer.PlaceSheeps();
 
         sheepsOnArea = sheepPlacer.GetPlacedSheeps();
+
+        return this;
+    }
+
+    public Area AddAmountOfDogs(int amountOfDogs, int waitTimeForDogsMilliseconds) {
+        DogPlacer dogPlacer = new DogPlacer(this, amountOfDogs, waitTimeForDogsMilliseconds);
+        dogPlacer.PlaceDogs();
+
+        dogsOnArea = dogPlacer.GetPlacedDogs();
 
         return this;
     }
@@ -66,4 +81,5 @@ public class Area {
 
     private Field[][] area;
     private ArrayList<Juh> sheepsOnArea;
+    private ArrayList<Kutya> dogsOnArea;
 }

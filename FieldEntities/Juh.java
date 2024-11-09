@@ -2,15 +2,14 @@ package FieldEntities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import Area.Adjustment;
 import Area.Area;
 import Area.Field;
-import Area.GateReachedEvent;
-import Area.GateReachedListener;
 import Area.IndexPair;
+import Area.Observing.GateReachedEvent;
+import Area.Observing.IGateReachedListener;
 import FieldEntities.Movement.MovementHandler;
+import FieldEntities.Movement.MovementHelper;
 
 public class Juh extends Thread implements FieldEntity {
     public Juh(char id, Area area, IndexPair position, int waitTimeMilliseconds) {
@@ -19,6 +18,7 @@ public class Juh extends Thread implements FieldEntity {
         this.waitTimeMilliseconds = waitTimeMilliseconds;
         this.position = position;
         this.movementHandler = new MovementHandler();
+        this.movementHelper = new MovementHelper();
     }
 
     @Override
@@ -34,6 +34,8 @@ public class Juh extends Thread implements FieldEntity {
                 Move();
 
                 Field current = area.GetField(position.GetX(), position.GetY());
+                current.GetValue();
+
                 if (current.IsGate()) {
                     TriggerGateReachedEvent();
                     break;
@@ -49,11 +51,11 @@ public class Juh extends Thread implements FieldEntity {
         return EntityType.SHEEP;
     }
 
-    public void AddGateReachedListener(GateReachedListener listener) {
+    public void AddGateReachedListener(IGateReachedListener listener) {
         listeners.add(listener);
     }
 
-    public void RemoveGateReachedListener(GateReachedListener listener) {
+    public void RemoveGateReachedListener(IGateReachedListener listener) {
         listeners.remove(listener);
     }
 
@@ -64,7 +66,7 @@ public class Juh extends Thread implements FieldEntity {
         Field right = area.GetField(position.GetX() + 1, position.GetY());
         Field left = area.GetField(position.GetX() - 1, position.GetY());
 
-        ArrayList<Field> possibleMoves = getPossibleMoves(up, down, right, left);
+        ArrayList<Field> possibleMoves = movementHelper.GetPossibleMoves(up, down, right, left);
 
         if (possibleMoves.isEmpty()){
             Move();
@@ -78,6 +80,7 @@ public class Juh extends Thread implements FieldEntity {
             }
 
             position = new IndexPair(down.GetX(), down.GetY());
+            return;
         }
         else if(down.IsDog() && up.IsEmpty()){
             if(!movementHandler.TryMove(current, up)){
@@ -86,6 +89,7 @@ public class Juh extends Thread implements FieldEntity {
             }
 
             position = new IndexPair(up.GetX(), up.GetY());
+            return;
         }
         else if(right.IsDog() && left.IsEmpty()){
             if(!movementHandler.TryMove(current, left)){
@@ -94,6 +98,7 @@ public class Juh extends Thread implements FieldEntity {
             }
 
             position = new IndexPair(left.GetX(), left.GetY());
+            return;
         }
         else if(left.IsDog() && right.IsEmpty()){
             if(!movementHandler.TryMove(current, right)){
@@ -102,9 +107,10 @@ public class Juh extends Thread implements FieldEntity {
             }
 
             position = new IndexPair(right.GetX(), left.GetY());
+            return;
         }
 
-        Field filedToMove = GetFieldToMoveFrom(possibleMoves);
+        Field filedToMove = movementHelper.GetFieldToMoveFrom(possibleMoves);
         
         if(!movementHandler.TryMove(current, filedToMove)){
             Move();
@@ -114,34 +120,9 @@ public class Juh extends Thread implements FieldEntity {
         position = new IndexPair(filedToMove.GetX(), filedToMove.GetY());
     }
 
-    private ArrayList<Field> getPossibleMoves(Field up, Field down, Field right, Field left) {
-        ArrayList<Field> possibleMoves = new ArrayList<>();
-        if (up.IsEmpty()) {
-            possibleMoves.add(up);   
-        }
-        if (down.IsEmpty()) {
-            possibleMoves.add(down);   
-        }
-        if (right.IsEmpty()) {
-            possibleMoves.add(right);   
-        }
-        if (left.IsEmpty()) {
-            possibleMoves.add(left);   
-        }
-
-        return possibleMoves;
-    }
-
-    private Field GetFieldToMoveFrom(ArrayList<Field> possibleMoves) {
-        Random rand = new Random();
-        int randomIndex = rand.nextInt(possibleMoves.size());
-
-        return possibleMoves.get(randomIndex);
-    }
-
     private void TriggerGateReachedEvent() {
         GateReachedEvent event = new GateReachedEvent(this);
-        for (GateReachedListener listener : listeners) {
+        for (IGateReachedListener listener : listeners) {
             listener.OnGateReached(event);
         }
     }
@@ -150,5 +131,6 @@ public class Juh extends Thread implements FieldEntity {
     private int waitTimeMilliseconds;
     private IndexPair position;
     private MovementHandler movementHandler;
-    private final List<GateReachedListener> listeners = new ArrayList<>();
+    private MovementHelper movementHelper;
+    private final List<IGateReachedListener> listeners = new ArrayList<>();
 }

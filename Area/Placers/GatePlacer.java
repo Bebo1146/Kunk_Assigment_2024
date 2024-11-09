@@ -6,7 +6,6 @@ import Area.Area;
 import Area.Field;
 import Area.IndexPair;
 import FieldEntities.Kapu;
-import FieldEntities.Kutya;
 
 public class GatePlacer {
     public static void PlaceTo(Area area){

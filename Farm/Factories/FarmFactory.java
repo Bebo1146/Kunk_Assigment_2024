@@ -2,12 +2,9 @@ package Farm.Factories;
 
 import Area.Adjustment;
 import Area.Area;
-import Area.Placers.DogPlacer;
-import Area.Placers.SheepPlacer;
 import Farm.Farm;
 
 public class FarmFactory {
-    
     public static Farm Create(int length, int width, int numberOfDogs,
         int numberOfSheeps, int waitTimeForSheepsMilliseconds ,int waitTimeForDogsMilliseconds) 
     {
@@ -17,11 +14,10 @@ public class FarmFactory {
 
         Area area = 
             CreateAreaForFarm(length + Adjustment.Value, width + Adjustment.Value)
-            .AddAmountOfSheeps(numberOfSheeps, waitTimeForSheepsMilliseconds);
+            .AddAmountOfSheeps(numberOfSheeps, waitTimeForSheepsMilliseconds)
+            .AddAmountOfDogs(numberOfDogs, waitTimeForDogsMilliseconds);
 
-        DogPlacer.PlaceTo(area, numberOfDogs);
-
-        return new Farm(area, area.GetSheeps());
+        return new Farm(area, area.GetSheeps(), area.GetDogs());
     }
 
     private static Area CreateAreaForFarm(int length, int width) {

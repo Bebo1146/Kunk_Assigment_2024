@@ -30,10 +30,10 @@ o	Alapértelmezésként 10 juhot és 5 kutyát indítunk.
 o	Minden juh saját szálon fut, a szál neve (és a toString() által visszaadott érték) egy nagybetű legyen.
 o	A juhok a középső kilencedben kezdenek.
 o	Minden két mozgás között egy adott ideig (alapértelmezett érték 200 ms) várnak.
-
 o	A juhok érzékelik a kutyák jelenlétét a közvetlen szomszédos mezőkön, és ennek hatására ellentétes irányba indulnak el: ha például a vízszintes dimenzió mentén a három szomszédos mező valamelyikében kutya van, akkor a juh ezen dimenzió mentén a másik irányba indul. Ugyanez igaz a függőleges dimenzióra is.
 o	Amelyik dimenzió mentén nem érzékelnek kutyát a szomszédos mezőben, véletlenszerűen választják ki a mozgásuk irányát.
-o	Az irány nem lehet mindkét dimenzió mentén 0, vagyis a juhnak mozognia kell mindenképpen, hacsak nem ütközne valamibe a mozgás során.
+
+o	Az irány nem lehet mindkét dimenzió mentén 0, vagyis a juhnak mozognia kell mindenképpen, hacsak nem ütközne valamibe a mozgás során. => ?
 
 o	Ha egy juh egy kapu mezőre lép, elszökik, ezzel vége a szimulációnak.
 

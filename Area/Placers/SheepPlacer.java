@@ -2,22 +2,12 @@ package Area.Placers;
 
 import java.util.ArrayList;
 
-import Area.Adjustment;
 import Area.Area;
 import Area.Field;
 import Area.IndexPair;
 import FieldEntities.Juh;
-import FieldEntities.Kutya;
 
 public class SheepPlacer {
-    public ArrayList<Juh> GetPlacedSheeps(){
-        if(!areSheepsPlaced){
-            throw new UnsupportedOperationException("Sheeps are not placed yet.");
-        }
-
-        return placedSheeps;
-    }
-
     public SheepPlacer(Area area, int amountOfSheeps, int waitTimeMilliseconds){
         this.area = area;
         this.amountOfSheeps = amountOfSheeps;
@@ -27,17 +17,21 @@ public class SheepPlacer {
         placedSheeps = new ArrayList<>();
     }
 
+    public ArrayList<Juh> GetPlacedSheeps(){
+        if(!areSheepsPlaced){
+            throw new UnsupportedOperationException("Sheeps are not placed yet.");
+        }
+
+        return placedSheeps;
+    }
+
     public Area PlaceSheeps(){
         areSheepsPlaced = true;
+        
+        SheepPlaces sheepPlaces = new SheepPlaces(area);
 
-        int lengthByThree = (area.GetLength() - Adjustment.Value) / 3;
-        int widthByThree = (area.GetWidth() - Adjustment.Value) / 3;
-
-        IndexPair sheepsStart = 
-            SheepPlaces.GetStartFrom(lengthByThree, widthByThree);
-
-        IndexPair sheepsFinish = 
-            SheepPlaces.GetFinishFrom(area, lengthByThree, widthByThree);
+        IndexPair sheepsStart = sheepPlaces.GetStart();
+        IndexPair sheepsFinish = sheepPlaces.GetFinish();
 
         AddSheepsTo(area, sheepsStart, sheepsFinish);
 

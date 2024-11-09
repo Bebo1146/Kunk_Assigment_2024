@@ -1,7 +1,6 @@
 package FieldEntities.Movement;
 
 import Area.Field;
-import FieldEntities.EmptyField;
 
 public class MovementHandler {
     public boolean TryMove(Field from, Field to) {

@@ -4,7 +4,6 @@ import Area.Area;
 import Area.Field;
 import Area.IndexPair;
 import FieldEntities.Fal;
-import FieldEntities.Kutya;
 
 public class WallPlacer {
     public static void PlaceTo(Area area){
