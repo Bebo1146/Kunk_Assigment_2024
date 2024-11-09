@@ -34,7 +34,6 @@ public class Juh extends Thread implements FieldEntity {
                 Move();
 
                 Field current = area.GetField(position.GetX(), position.GetY());
-                current.GetValue();
 
                 if (current.IsGate()) {
                     TriggerGateReachedEvent();
@@ -66,7 +65,7 @@ public class Juh extends Thread implements FieldEntity {
         Field right = area.GetField(position.GetX() + 1, position.GetY());
         Field left = area.GetField(position.GetX() - 1, position.GetY());
 
-        ArrayList<Field> possibleMoves = movementHelper.GetPossibleMoves(up, down, right, left);
+        ArrayList<Field> possibleMoves = GetPossibleMoves(up, down, right, left);
 
         if (possibleMoves.isEmpty()){
             Move();
@@ -111,13 +110,31 @@ public class Juh extends Thread implements FieldEntity {
         }
 
         Field filedToMove = movementHelper.GetFieldToMoveFrom(possibleMoves);
-        
+            
         if(!movementHandler.TryMove(current, filedToMove)){
             Move();
             return;
         }
 
         position = new IndexPair(filedToMove.GetX(), filedToMove.GetY());
+    }
+
+    private ArrayList<Field> GetPossibleMoves(Field up, Field down, Field right, Field left) {
+        ArrayList<Field> possibleMoves = new ArrayList<>();
+        if (up.IsEmpty() || up.IsGate()) {
+            possibleMoves.add(up);   
+        }
+        if (down.IsEmpty() || down.IsGate()) {
+            possibleMoves.add(down);
+        }
+        if (right.IsEmpty() || right.IsGate()) {
+            possibleMoves.add(right);   
+        }
+        if (left.IsEmpty() || left.IsGate()) {
+            possibleMoves.add(left);   
+        }
+
+        return possibleMoves;
     }
 
     private void TriggerGateReachedEvent() {

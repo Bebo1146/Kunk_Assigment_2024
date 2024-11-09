@@ -8,8 +8,8 @@ class Program {
         int width = 12;
         int waitTimeForSheepsMilliseconds = 200;
         int waitTimeForDogsMilliseconds = 200;
-        int numberOfDogs = 0;
-        int numberOfSheeps = 16;
+        int numberOfDogs = 5;
+        int numberOfSheeps = 10;
 
         Farm farm = FarmFactory.Create(length, width, numberOfDogs, numberOfSheeps,
             waitTimeForSheepsMilliseconds, waitTimeForDogsMilliseconds);
@@ -29,7 +29,7 @@ class Program {
                 e.printStackTrace();
             }
             System.out.println();
-            
+
             farm.DisplayArea();
         }
     }

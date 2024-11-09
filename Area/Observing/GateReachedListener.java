@@ -5,12 +5,18 @@ public class GateReachedListener implements IGateReachedListener {
 
     public GateReachedListener() {
         IsGateReached = false;
+        isFirst = true;
     }
 
     @Override
     public void OnGateReached(GateReachedEvent event) {
-        System.out.println("Juh " + event.getJuh().getName() + " has reached the gate!");
+        if (isFirst) {
+            System.out.println("Juh " + event.getJuh().getName() + " has reached the gate!");
+            isFirst = false;   
+        }
 
         IsGateReached = true;
     }
+
+    private boolean isFirst;
 }

@@ -49,8 +49,7 @@ public class Kutya extends Thread implements FieldEntity {
         Field right = area.GetField(position.GetX() + 1, position.GetY());
         Field left = area.GetField(position.GetX() - 1, position.GetY());
 
-        ArrayList<Field> possibleMoves = movementHelper.GetPossibleMoves(up, down, right, left);
-        RemoveSheepAreaFrom(possibleMoves);
+        ArrayList<Field> possibleMoves = GetPossibleMoves(up, down, right, left);
 
         Field filedToMove = movementHelper.GetFieldToMoveFrom(possibleMoves);
 
@@ -60,6 +59,26 @@ public class Kutya extends Thread implements FieldEntity {
         }
 
         position = new IndexPair(filedToMove.GetX(), filedToMove.GetY());
+    }
+
+    public ArrayList<Field> GetPossibleMoves(Field up, Field down, Field right, Field left) {
+        ArrayList<Field> possibleMoves = new ArrayList<>();
+        if (up.IsEmpty()) {
+            possibleMoves.add(up);   
+        }
+        if (down.IsEmpty()) {
+            possibleMoves.add(down);
+        }
+        if (right.IsEmpty()) {
+            possibleMoves.add(right);   
+        }
+        if (left.IsEmpty()) {
+            possibleMoves.add(left);   
+        }
+
+        RemoveSheepAreaFrom(possibleMoves);
+
+        return possibleMoves;
     }
 
     private void RemoveSheepAreaFrom(ArrayList<Field> possibleMoves) {

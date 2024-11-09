@@ -30,8 +30,11 @@ public class Field {
     public boolean TrySetValue(FieldEntity value) {
         writeLock.lock();
         try {
-            if (this.value.GetType() == EntityType.EMPTY) {
-                this.value = value;
+            if (this.value.GetType() == EntityType.EMPTY || this.value.GetType() == EntityType.GATE) {
+                if(this.value.GetType() == EntityType.EMPTY)
+                {
+                    this.value = value;
+                }
                 return true;
             }
         } finally {
@@ -44,7 +47,6 @@ public class Field {
         this.x = x;
         this.y = y;
         this.value = value;
-        lock = new ReentrantLock();
         readWriteLock = new ReentrantReadWriteLock();
         writeLock = readWriteLock.writeLock();
         readLock = readWriteLock.readLock();
@@ -82,7 +84,6 @@ public class Field {
     public int x;
     public int y;
     private FieldEntity value;
-    private final Lock lock;
     private final ReadWriteLock readWriteLock;
     private final Lock readLock;
     private final Lock writeLock;
