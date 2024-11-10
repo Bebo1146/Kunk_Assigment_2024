@@ -32,17 +32,13 @@ public class DogPlacer {
     public Area PlaceDogs(){
         areDogsPlaced = true;
         
-        SheepPlaces sheepPlaces = new SheepPlaces(area);
-
-        IndexPair sheepsStart = sheepPlaces.GetStart();
-        IndexPair sheepsFinish = sheepPlaces.GetFinish();
-        
         List<IndexPair> dogPositions = new ArrayList<>();
         for(int i = 0; i < amountOfDogs; i++){
             int randomX = RandomNumberBetweenOneAnd(area.GetLength() - Adjustment.Value);
             int randomY = RandomNumberBetweenOneAnd(area.GetWidth() - Adjustment.Value);
-            while (isSheepArea(randomX, randomY, sheepsStart, sheepsFinish) 
-                || isDogThere(randomX, randomY, dogPositions)) {
+            
+            while (area.GetField(randomX, randomY).IsSheepArea() || isDogThere(randomX, randomY, dogPositions)) 
+            {
                 randomX = RandomNumberBetweenOneAnd(area.GetLength()  - Adjustment.Value);
                 randomY = RandomNumberBetweenOneAnd(area.GetWidth()  - Adjustment.Value);
             }
@@ -52,7 +48,7 @@ public class DogPlacer {
 
             Kutya kutya = new Kutya(i, area, indexPair, waitTimeMilliseconds);
             placedDogs.add(kutya);
-            Field field = new Field(indexPair.GetX(), indexPair.GetY(), kutya);
+            Field field = new Field(indexPair.GetX(), indexPair.GetY(), kutya,  false);
             area.AddTypeTo(indexPair, field);
         }
 
@@ -64,20 +60,15 @@ public class DogPlacer {
         return rand.nextInt(max - 2) + 2;
     }
 
-    private boolean isSheepArea(int row, int col, IndexPair sheepsStart, IndexPair sheepsFinish) {
-        return row >= sheepsStart.GetX() && row <= sheepsFinish.GetX()
-                && col >= sheepsStart.GetY() && col <= sheepsFinish.GetY();
-    }
-
     private boolean isDogThere(int row, int col, List<IndexPair> dogPositions) {
         IndexPair position = new IndexPair(row, col);
 
         return dogPositions.contains(position);
     }
 
-    private Area area;
-    private int amountOfDogs;
-    private int waitTimeMilliseconds;
+    private final Area area;
+    private final int amountOfDogs;
+    private final int waitTimeMilliseconds;
     private boolean areDogsPlaced;
-    private ArrayList<Kutya> placedDogs;
+    private final ArrayList<Kutya> placedDogs;
 }

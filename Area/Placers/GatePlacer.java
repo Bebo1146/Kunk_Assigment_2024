@@ -21,7 +21,7 @@ public class GatePlacer {
     private static void AddGateTop(Area area){
         int y = random.nextInt(area.GetWidth()- 2) + 1;
         IndexPair indexPair = new IndexPair(0, y);
-        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu());
+        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu(), false);
 
         area.AddTypeTo(indexPair, field);
     }
@@ -29,7 +29,7 @@ public class GatePlacer {
     private static void AddGateBottom(Area area){
         int y = random.nextInt(area.GetWidth()- 2) + 1;
         IndexPair indexPair = new IndexPair(area.GetLength() - 1, y);
-        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu());
+        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu(),  false);
 
         area.AddTypeTo(indexPair, field);
     }
@@ -42,7 +42,7 @@ public class GatePlacer {
     private static void AddGateLeft(Area area){
         int x = random.nextInt(area.GetLength()- 2) + 1;
         IndexPair indexPair = new IndexPair(x, 0);
-        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu());
+        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu(),  false);
 
         area.AddTypeTo(indexPair, field);
     }
@@ -50,7 +50,7 @@ public class GatePlacer {
     private static void AddGateRight(Area area){
         int x = random.nextInt(area.GetLength()- 2) + 1;
         IndexPair indexPair = new IndexPair(x, area.GetWidth() - 1);
-        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu());
+        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu(),  false);
 
         area.AddTypeTo(indexPair, field);
     }

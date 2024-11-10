@@ -81,14 +81,8 @@ public class Kutya extends Thread implements FieldEntity {
     }
 
     private ArrayList<Field> RemoveSheepAreaFrom(ArrayList<Field> possibleMoves) {
-        SheepPlaces sheepPlaces = new SheepPlaces(area);
-    
-        IndexPair sheepsStart = sheepPlaces.GetStart();
-        IndexPair sheepsFinish = sheepPlaces.GetFinish();
-
         return possibleMoves.stream()
-        .filter(field -> !(field.GetX() >= sheepsStart.GetX() && field.GetX() <= sheepsFinish.GetX()
-                     && field.GetY() >= sheepsStart.GetY() && field.GetY() <= sheepsFinish.GetY()))
+        .filter(field -> !field.IsSheepArea())
         .collect(Collectors.toCollection(ArrayList::new));
     }
 

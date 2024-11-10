@@ -17,6 +17,10 @@ public class Field {
         return y;
     }
 
+    public boolean IsSheepArea(){
+        return isSheepArea;
+    }
+
     public FieldEntity GetValue() {
         readLock.lock();
         try {
@@ -43,10 +47,11 @@ public class Field {
         return false;
     }
 
-    public Field(int x, int y, FieldEntity value){
+    public Field(int x, int y, FieldEntity value, boolean isSheepArea){
         this.x = x;
         this.y = y;
         this.value = value;
+        this.isSheepArea = isSheepArea;
         readWriteLock = new ReentrantReadWriteLock();
         writeLock = readWriteLock.writeLock();
         readLock = readWriteLock.readLock();
@@ -81,8 +86,9 @@ public class Field {
         return value.toString();
     }
 
-    public int x;
-    public int y;
+    public final int x;
+    public final int y;
+    private final boolean isSheepArea;
     private FieldEntity value;
     private final ReadWriteLock readWriteLock;
     private final Lock readLock;

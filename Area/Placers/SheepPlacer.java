@@ -54,7 +54,7 @@ public class SheepPlacer {
             Juh juh = new Juh(CreateIdFrom(), area, position, waitTimeMilliseconds);
             placedSheeps.add(juh);
 
-            Field field = new Field(position.GetX(), position.GetY(), juh);
+            Field field = new Field(position.GetX(), position.GetY(), juh, true);
 
             area.AddTypeTo(position, field);
             counter++;

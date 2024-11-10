@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Area.Placers.DogPlacer;
 import Area.Placers.GatePlacer;
 import Area.Placers.SheepPlacer;
+import Area.Placers.SheepPlaces;
 import Area.Placers.WallPlacer;
 import FieldEntities.EmptyField;
 import FieldEntities.Juh;
@@ -74,7 +75,7 @@ public class Area {
     private void Init() {
         for (int i = 0; i < area.length; i++) {
             for (int j = 0; j < area[i].length; j++) {
-                area[i][j] = new Field(i, j, new EmptyField());
+                area[i][j] = new Field(i, j, new EmptyField(), false);
             }
         }
     }

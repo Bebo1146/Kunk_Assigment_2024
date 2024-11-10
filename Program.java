@@ -23,19 +23,18 @@ class Program {
         farm.StartMovingDogs();
 
         while (!gateReachedListener.IsGateReached) {
-            // Move the cursor to the top left corner
             System.out.print("\u001B[0;0H");
             System.out.flush();
 
-            // Display the farm state
             farm.DisplayArea();
 
-            // Wait for the specified time before updating again
             try {
                 Thread.sleep(waitTimeForSheepsMilliseconds);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
+        System.exit(0);
     }
 }

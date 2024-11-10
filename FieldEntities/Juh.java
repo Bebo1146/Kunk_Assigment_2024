@@ -2,6 +2,8 @@ package FieldEntities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import Area.Area;
 import Area.Field;
@@ -59,64 +61,44 @@ public class Juh extends Thread implements FieldEntity {
     }
 
     private void Move() {
-        Field current = area.GetField(position.GetX(), position.GetY());
-        Field up = area.GetField(position.GetX(), position.GetY() + 1);
-        Field down = area.GetField(position.GetX(), position.GetY() - 1);
-        Field right = area.GetField(position.GetX() + 1, position.GetY());
-        Field left = area.GetField(position.GetX() - 1, position.GetY());
+        try {
+            Field current = area.GetField(position.GetX(), position.GetY());
+            Field up = area.GetField(position.GetX(), position.GetY() + 1);
+            Field down = area.GetField(position.GetX(), position.GetY() - 1);
+            Field right = area.GetField(position.GetX() + 1, position.GetY());
+            Field left = area.GetField(position.GetX() - 1, position.GetY());
 
-        ArrayList<Field> possibleMoves = GetPossibleMoves(up, down, right, left);
-
-        if (possibleMoves.isEmpty()){
-            Move();
-            return;
-        }
-
-        if (up.IsDog() && down.IsEmpty()) {
-            if(!movementHandler.TryMove(current, down)){
-                Move();
+            ArrayList<Field> possibleMoves = GetPossibleMoves(up, down, right, left);
+            if (possibleMoves.isEmpty()){
                 return;
             }
 
-            position = new IndexPair(down.GetX(), down.GetY());
-            return;
-        }
-        else if(down.IsDog() && up.IsEmpty()){
-            if(!movementHandler.TryMove(current, up)){
-                Move();
-                return;
-            }
-
-            position = new IndexPair(up.GetX(), up.GetY());
-            return;
-        }
-        else if(right.IsDog() && left.IsEmpty()){
-            if(!movementHandler.TryMove(current, left)){
-                Move();
-                return;
-            }
-
-            position = new IndexPair(left.GetX(), left.GetY());
-            return;
-        }
-        else if(left.IsDog() && right.IsEmpty()){
-            if(!movementHandler.TryMove(current, right)){
-                Move();
-                return;
-            }
-
-            position = new IndexPair(right.GetX(), left.GetY());
-            return;
-        }
-
-        Field filedToMove = movementHelper.GetFieldToMoveFrom(possibleMoves);
+            ArrayList<DirectionPair> pairs = new ArrayList<DirectionPair>() {{
+                add(new DirectionPair(up, down));
+                add(new DirectionPair(down, up));
+                add(new DirectionPair(right, left));
+                add(new DirectionPair(left, right));
+            }};
             
-        if(!movementHandler.TryMove(current, filedToMove)){
-            Move();
-            return;
-        }
+            Optional<Field> newPos = TryGetPositionIncaseDogsFrom(pairs, current);
+            if(newPos.isPresent()){
+                position = new IndexPair(newPos.get().GetX(), newPos.get().GetY());
+                return;
+            }
 
-        position = new IndexPair(filedToMove.GetX(), filedToMove.GetY());
+            Field filedToMove = movementHelper.GetFieldToMoveFrom(possibleMoves);
+            
+            if(!movementHandler.TryMove(current, filedToMove))
+            {
+                return;
+            }
+
+            position = new IndexPair(filedToMove.GetX(), filedToMove.GetY());   
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+            System.exit(MAX_PRIORITY);
+        }
     }
 
     private ArrayList<Field> GetPossibleMoves(Field up, Field down, Field right, Field left) {
@@ -136,6 +118,28 @@ public class Juh extends Thread implements FieldEntity {
 
         return possibleMoves;
     }
+
+    private Optional<Field> TryGetPositionIncaseDogsFrom(ArrayList<DirectionPair> pairs, Field current)
+    {
+        return pairs.stream()
+        .filter(fieldPair -> {
+            Field direction = fieldPair.GetDirection();
+            Field opposite = fieldPair.GetOppositeDirection();
+
+            if (direction.IsDog() && opposite.IsEmpty()) {
+                if(!movementHandler.TryMove(current, opposite)){
+                    return false;
+                }
+    
+                return true;
+            }
+
+            return false;   
+        })
+        .map(DirectionPair::GetOppositeDirection)
+        .findFirst(); // maybe get random
+    }
+
 
     private void TriggerGateReachedEvent() {
         GateReachedEvent event = new GateReachedEvent(this);

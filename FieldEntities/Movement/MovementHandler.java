@@ -7,8 +7,8 @@ public class MovementHandler {
         if(!to.TrySetValue(from.GetValue())){
             return false;
         }
+        
         from.Empty();
-
         return true;
     }
 }
