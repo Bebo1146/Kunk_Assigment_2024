@@ -8,10 +8,10 @@ import FieldEntities.Juh;
 import FieldEntities.Kutya;
 
 public class Farm {
-    public Farm(Area area, ArrayList<Juh> sheepsOnArea, ArrayList<Kutya> dogsOnArea) {
+    public Farm(Area area) {
         this.area = area;
-        this.sheepsOnArea = sheepsOnArea;
-        this.dogsOnArea = dogsOnArea;
+        this.sheepsOnArea = area.GetSheeps();
+        this.dogsOnArea = area.GetDogs();
     }
 
     public void DisplayArea() {

@@ -17,7 +17,7 @@ public class FarmFactory {
             .AddAmountOfSheeps(numberOfSheeps, waitTimeForSheepsMilliseconds)
             .AddAmountOfDogs(numberOfDogs, waitTimeForDogsMilliseconds);
 
-        return new Farm(area, area.GetSheeps(), area.GetDogs());
+        return new Farm(area);
     }
 
     private static Area CreateAreaForFarm(int length, int width) {

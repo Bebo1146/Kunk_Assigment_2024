@@ -1,4 +1,7 @@
 import Farm.Factories.FarmFactory;
+
+import java.io.IOException;
+
 import Area.Observing.GateReachedListener;
 import Farm.Farm;
 
@@ -19,18 +22,20 @@ class Program {
         farm.StartMovingSheeps(gateReachedListener);
         farm.StartMovingDogs();
 
-        farm.DisplayArea();
         while (!gateReachedListener.IsGateReached) {
+            // Move the cursor to the top left corner
+            System.out.print("\u001B[0;0H");
+            System.out.flush();
 
-            System.out.println();
+            // Display the farm state
+            farm.DisplayArea();
+
+            // Wait for the specified time before updating again
             try {
                 Thread.sleep(waitTimeForSheepsMilliseconds);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println();
-
-            farm.DisplayArea();
         }
     }
 }

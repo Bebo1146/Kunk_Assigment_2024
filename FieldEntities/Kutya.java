@@ -2,6 +2,7 @@ package FieldEntities;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 
 import Area.Area;
 import Area.Field;
@@ -76,25 +77,19 @@ public class Kutya extends Thread implements FieldEntity {
             possibleMoves.add(left);   
         }
 
-        RemoveSheepAreaFrom(possibleMoves);
-
-        return possibleMoves;
+        return RemoveSheepAreaFrom(possibleMoves);
     }
 
-    private void RemoveSheepAreaFrom(ArrayList<Field> possibleMoves) {
+    private ArrayList<Field> RemoveSheepAreaFrom(ArrayList<Field> possibleMoves) {
         SheepPlaces sheepPlaces = new SheepPlaces(area);
     
         IndexPair sheepsStart = sheepPlaces.GetStart();
         IndexPair sheepsFinish = sheepPlaces.GetFinish();
-    
-        Iterator<Field> iterator = possibleMoves.iterator();
-        while (iterator.hasNext()) {
-            Field field = iterator.next();
-            if (field.GetX() >= sheepsStart.GetX() && field.GetX() <= sheepsFinish.GetX()
-                && field.GetY() >= sheepsStart.GetY() && field.GetY() <= sheepsFinish.GetY()) {
-                iterator.remove();
-            }
-        }
+
+        return possibleMoves.stream()
+        .filter(field -> !(field.GetX() >= sheepsStart.GetX() && field.GetX() <= sheepsFinish.GetX()
+                     && field.GetY() >= sheepsStart.GetY() && field.GetY() <= sheepsFinish.GetY()))
+        .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private IndexPair position;

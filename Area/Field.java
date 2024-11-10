@@ -2,7 +2,6 @@ package Area;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import FieldEntities.FieldEntity;
@@ -30,16 +29,17 @@ public class Field {
     public boolean TrySetValue(FieldEntity value) {
         writeLock.lock();
         try {
-            if (this.value.GetType() == EntityType.EMPTY || this.value.GetType() == EntityType.GATE) {
-                if(this.value.GetType() == EntityType.EMPTY)
-                {
-                    this.value = value;
-                }
+            if (this.value.GetType() == EntityType.EMPTY) {
+                this.value = value;
+                return true;
+            }
+            if (this.value.GetType() == EntityType.GATE) {
                 return true;
             }
         } finally {
             writeLock.unlock();
         }
+        
         return false;
     }
 
