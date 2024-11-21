@@ -3,12 +3,12 @@ package FieldEntities.Movement;
 import Area.Field;
 
 public class MovementHandler {
-    public boolean TryMove(Field from, Field to) {
-        if(!to.TrySetValue(from.GetValue())){
+    public boolean tryMove(Field from, Field to) {
+        if(!to.trySetValue(from.getValue())){
             return false;
         }
         
-        from.Empty();
+        from.empty();
         return true;
     }
 }

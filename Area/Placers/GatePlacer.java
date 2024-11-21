@@ -8,51 +8,51 @@ import Area.IndexPair;
 import FieldEntities.Kapu;
 
 public class GatePlacer {
-    public static void PlaceTo(Area area){
-        AddGatesTopBottom(area);
-        AddGatesLeftRight(area);
+    public static void placeTo(Area area){
+        addGatesTopBottom(area);
+        addGatesLeftRight(area);
     }
 
-    private static void AddGatesTopBottom(Area area){
-        AddGateTop(area);
-        AddGateBottom(area);
+    private static void addGatesTopBottom(Area area){
+        addGateTop(area);
+        addGateBottom(area);
     }
 
-    private static void AddGateTop(Area area){
-        int y = random.nextInt(area.GetWidth()- 2) + 1;
+    private static void addGateTop(Area area){
+        int y = random.nextInt(area.getWidth()- 2) + 1;
         IndexPair indexPair = new IndexPair(0, y);
-        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu(), false);
+        Field field = new Field(indexPair.getX(), indexPair.getY(), new Kapu(), false);
 
-        area.AddTypeTo(indexPair, field);
+        area.addTypeTo(indexPair, field);
     }
 
-    private static void AddGateBottom(Area area){
-        int y = random.nextInt(area.GetWidth()- 2) + 1;
-        IndexPair indexPair = new IndexPair(area.GetLength() - 1, y);
-        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu(),  false);
+    private static void addGateBottom(Area area){
+        int y = random.nextInt(area.getWidth()- 2) + 1;
+        IndexPair indexPair = new IndexPair(area.getLength() - 1, y);
+        Field field = new Field(indexPair.getX(), indexPair.getY(), new Kapu(),  false);
 
-        area.AddTypeTo(indexPair, field);
+        area.addTypeTo(indexPair, field);
     }
 
-    private static void AddGatesLeftRight(Area area){
-        AddGateLeft(area);
-        AddGateRight(area);
+    private static void addGatesLeftRight(Area area){
+        addGateLeft(area);
+        addGateRight(area);
     }
     
-    private static void AddGateLeft(Area area){
-        int x = random.nextInt(area.GetLength()- 2) + 1;
+    private static void addGateLeft(Area area){
+        int x = random.nextInt(area.getLength()- 2) + 1;
         IndexPair indexPair = new IndexPair(x, 0);
-        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu(),  false);
+        Field field = new Field(indexPair.getX(), indexPair.getY(), new Kapu(),  false);
 
-        area.AddTypeTo(indexPair, field);
+        area.addTypeTo(indexPair, field);
     }
 
-    private static void AddGateRight(Area area){
-        int x = random.nextInt(area.GetLength()- 2) + 1;
-        IndexPair indexPair = new IndexPair(x, area.GetWidth() - 1);
-        Field field = new Field(indexPair.GetX(), indexPair.GetY(), new Kapu(),  false);
+    private static void addGateRight(Area area){
+        int x = random.nextInt(area.getLength()- 2) + 1;
+        IndexPair indexPair = new IndexPair(x, area.getWidth() - 1);
+        Field field = new Field(indexPair.getX(), indexPair.getY(), new Kapu(),  false);
 
-        area.AddTypeTo(indexPair, field);
+        area.addTypeTo(indexPair, field);
     }
 
     private static Random random = new Random();

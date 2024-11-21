@@ -1,7 +1,5 @@
 import Farm.Factories.FarmFactory;
 
-import java.io.IOException;
-
 import Area.Observing.GateReachedListener;
 import Farm.Farm;
 
@@ -14,19 +12,19 @@ class Program {
         int numberOfDogs = 5;
         int numberOfSheeps = 10;
 
-        Farm farm = FarmFactory.Create(length, width, numberOfDogs, numberOfSheeps,
+        Farm farm = FarmFactory.create(length, width, numberOfDogs, numberOfSheeps,
             waitTimeForSheepsMilliseconds, waitTimeForDogsMilliseconds);
 
         GateReachedListener gateReachedListener = new GateReachedListener();
 
-        farm.StartMovingSheeps(gateReachedListener);
-        farm.StartMovingDogs();
+        farm.startMovingSheeps(gateReachedListener);
+        farm.startMovingDogs();
 
-        while (!gateReachedListener.IsGateReached) {
+        while (!gateReachedListener.getIsGateReached()) {
             System.out.print("\u001B[0;0H");
             System.out.flush();
 
-            farm.DisplayArea();
+            farm.displayArea();
 
             try {
                 Thread.sleep(waitTimeForSheepsMilliseconds);
@@ -35,6 +33,7 @@ class Program {
             }
         }
 
-        System.exit(0);
+        farm.stopMovingSheeps();
+        farm.stopMovingDogs();
     }
 }

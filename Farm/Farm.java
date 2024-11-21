@@ -10,24 +10,32 @@ import FieldEntities.Kutya;
 public class Farm {
     public Farm(Area area) {
         this.area = area;
-        this.sheepsOnArea = area.GetSheeps();
-        this.dogsOnArea = area.GetDogs();
+        this.sheepsOnArea = area.getSheeps();
+        this.dogsOnArea = area.getDogs();
     }
 
-    public void DisplayArea() {
-        area.Display();
+    public void displayArea() {
+        area.display();
     }
 
-    public void StartMovingSheeps(IGateReachedListener gateReachedListener) {
+    public void startMovingSheeps(IGateReachedListener gateReachedListener) {
         sheepsOnArea.forEach(sheep -> 
         {
-            sheep.AddGateReachedListener(gateReachedListener);
+            sheep.addGateReachedListener(gateReachedListener);
             sheep.start();
         });
     }
 
-    public void StartMovingDogs() {
+    public void startMovingDogs() {
         dogsOnArea.forEach(dog -> dog.start());
+    }
+
+    public void stopMovingSheeps() {
+        sheepsOnArea.forEach(dog -> dog.stopRunning());
+    }
+
+    public void stopMovingDogs() {
+        dogsOnArea.forEach(dog -> dog.stopRunning());
     }
 
     private final Area area;

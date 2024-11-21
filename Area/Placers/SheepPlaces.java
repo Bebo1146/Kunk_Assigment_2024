@@ -6,18 +6,18 @@ import Area.IndexPair;
 
 public class SheepPlaces {
     public SheepPlaces(Area area) {
-        this.lengthByThree = (area.GetLength() - Adjustment.Value) / 3;
-        this.widthByThree = (area.GetWidth() - Adjustment.Value) / 3;
+        this.lengthByThree = (area.getLength() - Adjustment.VALUE) / 3;
+        this.widthByThree = (area.getWidth() - Adjustment.VALUE) / 3;
         this.area = area;
     }
 
-    public IndexPair GetStart(){
+    public IndexPair getStart(){
         return new IndexPair(lengthByThree + 1, widthByThree + 1);
     }
 
-    public IndexPair GetFinish(){
-        int finishX = area.GetLength() - lengthByThree - 1;
-        int finishY = area.GetWidth() - widthByThree - 1;
+    public IndexPair getFinish(){
+        int finishX = area.getLength() - lengthByThree - 1;
+        int finishY = area.getWidth() - widthByThree - 1;
 
         return new IndexPair(finishX, finishY);
     }

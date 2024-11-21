@@ -5,56 +5,55 @@ import java.util.ArrayList;
 import Area.Placers.DogPlacer;
 import Area.Placers.GatePlacer;
 import Area.Placers.SheepPlacer;
-import Area.Placers.SheepPlaces;
 import Area.Placers.WallPlacer;
 import FieldEntities.EmptyField;
 import FieldEntities.Juh;
 import FieldEntities.Kutya;
 
 public class Area {
-    public int GetLength() {
+    public int getLength() {
         return area.length;
     }
 
-    public int GetWidth() {
+    public int getWidth() {
         return area[0].length; 
     }
 
-    public ArrayList<Juh> GetSheeps() {
+    public ArrayList<Juh> getSheeps() {
         return sheepsOnArea;
     }
 
-    public ArrayList<Kutya> GetDogs() {
+    public ArrayList<Kutya> getDogs() {
         return dogsOnArea;
     }
 
     public Area(int length, int width) {
         area = new Field[length][width];
-        Init();
+        init();
 
-        WallPlacer.PlaceTo(this);
-        GatePlacer.PlaceTo(this);
+        WallPlacer.placeTo(this);
+        GatePlacer.placeTo(this);
     }
 
-    public Area AddAmountOfSheeps(int amountOfSheeps, int waitTimeForSheepsMilliseconds) {
+    public Area addAmountOfSheeps(int amountOfSheeps, int waitTimeForSheepsMilliseconds) {
         SheepPlacer sheepPlacer = new SheepPlacer(this, amountOfSheeps, waitTimeForSheepsMilliseconds);
-        sheepPlacer.PlaceSheeps();
+        sheepPlacer.placeSheeps();
 
-        sheepsOnArea = sheepPlacer.GetPlacedSheeps();
+        sheepsOnArea = sheepPlacer.getPlacedSheeps();
 
         return this;
     }
 
-    public Area AddAmountOfDogs(int amountOfDogs, int waitTimeForDogsMilliseconds) {
+    public Area addAmountOfDogs(int amountOfDogs, int waitTimeForDogsMilliseconds) {
         DogPlacer dogPlacer = new DogPlacer(this, amountOfDogs, waitTimeForDogsMilliseconds);
-        dogPlacer.PlaceDogs();
+        dogPlacer.placeDogs();
 
-        dogsOnArea = dogPlacer.GetPlacedDogs();
+        dogsOnArea = dogPlacer.getPlacedDogs();
 
         return this;
     }
 
-    public void Display() {
+    public void display() {
         for (Field[] row : area) {
             for (Field field : row) {
                 System.out.print(field.toString());
@@ -64,15 +63,15 @@ public class Area {
         }
     }
 
-    public Field GetField(int x, int y) {
+    public Field getField(int x, int y) {
         return area[x][y];
     }
 
-    public void AddTypeTo(IndexPair indexPair, Field field) {
-        area[indexPair.GetX()][indexPair.GetY()] = field;
+    public void addTypeTo(IndexPair indexPair, Field field) {
+        area[indexPair.getX()][indexPair.getY()] = field;
     }
 
-    private void Init() {
+    private void init() {
         for (int i = 0; i < area.length; i++) {
             for (int j = 0; j < area[i].length; j++) {
                 area[i][j] = new Field(i, j, new EmptyField(), false);

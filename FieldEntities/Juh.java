@@ -2,7 +2,6 @@ package FieldEntities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import Area.Area;
@@ -21,6 +20,7 @@ public class Juh extends Thread implements FieldEntity {
         this.position = position;
         this.movementHandler = new MovementHandler();
         this.movementHelper = new MovementHelper();
+        this.running = true;
     }
 
     @Override
@@ -28,17 +28,23 @@ public class Juh extends Thread implements FieldEntity {
         return this.getName();
     }
 
+    public void stopRunning() {
+        running = false;
+    }
+
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             try {
                 Thread.sleep(waitTimeMilliseconds);
                 Move();
 
-                Field current = area.GetField(position.GetX(), position.GetY());
+                Field current = area.getField(position.getX(), position.getY());
 
-                if (current.IsGate()) {
-                    TriggerGateReachedEvent();
+                if (current.isGate()) {
+                    triggerGateReachedEvent();
+                    running = false;
+                    
                     break;
                 }
             } catch (InterruptedException e) {
@@ -48,86 +54,80 @@ public class Juh extends Thread implements FieldEntity {
     }
 
     @Override
-    public EntityType GetType() {
+    public EntityType getType() {
         return EntityType.SHEEP;
     }
 
-    public void AddGateReachedListener(IGateReachedListener listener) {
+    public void addGateReachedListener(IGateReachedListener listener) {
         listeners.add(listener);
     }
 
-    public void RemoveGateReachedListener(IGateReachedListener listener) {
+    public void removeGateReachedListener(IGateReachedListener listener) {
         listeners.remove(listener);
     }
 
     private void Move() {
-        try {
-            Field current = area.GetField(position.GetX(), position.GetY());
-            Field up = area.GetField(position.GetX(), position.GetY() + 1);
-            Field down = area.GetField(position.GetX(), position.GetY() - 1);
-            Field right = area.GetField(position.GetX() + 1, position.GetY());
-            Field left = area.GetField(position.GetX() - 1, position.GetY());
+        Field current = area.getField(position.getX(), position.getY());
+        Field up = area.getField(position.getX(), position.getY() + 1);
+        Field down = area.getField(position.getX(), position.getY() - 1);
+        Field right = area.getField(position.getX() + 1, position.getY());
+        Field left = area.getField(position.getX() - 1, position.getY());
 
-            ArrayList<Field> possibleMoves = GetPossibleMoves(up, down, right, left);
-            if (possibleMoves.isEmpty()){
-                return;
-            }
-
-            ArrayList<DirectionPair> pairs = new ArrayList<DirectionPair>() {{
-                add(new DirectionPair(up, down));
-                add(new DirectionPair(down, up));
-                add(new DirectionPair(right, left));
-                add(new DirectionPair(left, right));
-            }};
-            
-            Optional<Field> newPos = TryGetPositionIncaseDogsFrom(pairs, current);
-            if(newPos.isPresent()){
-                position = new IndexPair(newPos.get().GetX(), newPos.get().GetY());
-                return;
-            }
-
-            Field filedToMove = movementHelper.GetFieldToMoveFrom(possibleMoves);
-            
-            if(!movementHandler.TryMove(current, filedToMove))
-            {
-                return;
-            }
-
-            position = new IndexPair(filedToMove.GetX(), filedToMove.GetY());   
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-
-            System.exit(MAX_PRIORITY);
+        ArrayList<Field> possibleMoves = getPossibleMoves(up, down, right, left);
+        if (possibleMoves.isEmpty()){
+            return;
         }
+
+        ArrayList<DirectionPair> pairs = new ArrayList<DirectionPair>() {{
+            add(new DirectionPair(up, down));
+            add(new DirectionPair(down, up));
+            add(new DirectionPair(right, left));
+            add(new DirectionPair(left, right));
+        }};
+            
+        Optional<Field> newPos = tryGetPositionIncaseDogsFrom(pairs, current);
+        if(newPos.isPresent()){
+            position = new IndexPair(newPos.get().getX(), newPos.get().getY());
+            return;
+        }
+
+        Field filedToMove = movementHelper.getFieldToMoveFrom(possibleMoves);
+            
+        if(!movementHandler.tryMove(current, filedToMove))
+        {
+            return;
+        }
+
+        position = new IndexPair(filedToMove.getX(), filedToMove.getY());   
     }
 
-    private ArrayList<Field> GetPossibleMoves(Field up, Field down, Field right, Field left) {
+    private ArrayList<Field> getPossibleMoves(Field up, Field down, Field right, Field left) {
         ArrayList<Field> possibleMoves = new ArrayList<>();
-        if (up.IsEmpty() || up.IsGate()) {
+        if (up.isEmpty() || up.isGate()) {
             possibleMoves.add(up);   
         }
-        if (down.IsEmpty() || down.IsGate()) {
+        if (down.isEmpty() || down.isGate()) {
             possibleMoves.add(down);
         }
-        if (right.IsEmpty() || right.IsGate()) {
+        if (right.isEmpty() || right.isGate()) {
             possibleMoves.add(right);   
         }
-        if (left.IsEmpty() || left.IsGate()) {
+        if (left.isEmpty() || left.isGate()) {
             possibleMoves.add(left);   
         }
 
         return possibleMoves;
     }
 
-    private Optional<Field> TryGetPositionIncaseDogsFrom(ArrayList<DirectionPair> pairs, Field current)
+    private Optional<Field> tryGetPositionIncaseDogsFrom(ArrayList<DirectionPair> pairs, Field current)
     {
         return pairs.stream()
         .filter(fieldPair -> {
-            Field direction = fieldPair.GetDirection();
-            Field opposite = fieldPair.GetOppositeDirection();
+            Field direction = fieldPair.getDirection();
+            Field opposite = fieldPair.getOppositeDirection();
 
-            if (direction.IsDog() && opposite.IsEmpty()) {
-                if(!movementHandler.TryMove(current, opposite)){
+            if (direction.isDog() && opposite.isEmpty()) {
+                if(!movementHandler.tryMove(current, opposite)){
                     return false;
                 }
     
@@ -136,19 +136,19 @@ public class Juh extends Thread implements FieldEntity {
 
             return false;   
         })
-        .map(DirectionPair::GetOppositeDirection)
+        .map(DirectionPair::getOppositeDirection)
         .findFirst(); // maybe get random
     }
 
-
-    private void TriggerGateReachedEvent() {
+    private void triggerGateReachedEvent() {
         GateReachedEvent event = new GateReachedEvent(this);
         for (IGateReachedListener listener : listeners) {
-            listener.OnGateReached(event);
+            listener.onGateReached(event);
         }
     }
 
     private Area area;
+    private boolean running;
     private int waitTimeMilliseconds;
     private IndexPair position;
     private MovementHandler movementHandler;

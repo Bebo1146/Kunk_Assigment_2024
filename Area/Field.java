@@ -9,19 +9,19 @@ import FieldEntities.EmptyField;
 import FieldEntities.EntityType;
 
 public class Field {
-    public int GetX(){
+    public int getX(){
         return x;
     }
 
-    public int GetY(){
+    public int getY(){
         return y;
     }
 
-    public boolean IsSheepArea(){
+    public boolean isSheepArea(){
         return isSheepArea;
     }
 
-    public FieldEntity GetValue() {
+    public FieldEntity getValue() {
         readLock.lock();
         try {
             return value;
@@ -30,14 +30,14 @@ public class Field {
         }
     }
 
-    public boolean TrySetValue(FieldEntity value) {
+    public boolean trySetValue(FieldEntity value) {
         writeLock.lock();
         try {
-            if (this.value.GetType() == EntityType.EMPTY) {
+            if (this.value.getType() == EntityType.EMPTY) {
                 this.value = value;
                 return true;
             }
-            if (this.value.GetType() == EntityType.GATE) {
+            if (this.value.getType() == EntityType.GATE) {
                 return true;
             }
         } finally {
@@ -57,27 +57,27 @@ public class Field {
         readLock = readWriteLock.readLock();
     }
 
-    public boolean IsGate(){
-        return value.GetType() == EntityType.GATE;
+    public boolean isGate(){
+        return value.getType() == EntityType.GATE;
     }
 
-    public boolean IsWall(){
-        return value.GetType() == EntityType.WALL;
+    public boolean isWall(){
+        return value.getType() == EntityType.WALL;
     }
 
-    public boolean IsDog(){
-        return value.GetType() == EntityType.DOG;
+    public boolean isDog(){
+        return value.getType() == EntityType.DOG;
     }
 
-    public boolean IsSheep(){
-        return value.GetType() == EntityType.SHEEP;
+    public boolean isSheep(){
+        return value.getType() == EntityType.SHEEP;
     }
 
-    public boolean IsEmpty(){
-        return value.GetType() == EntityType.EMPTY;
+    public boolean isEmpty(){
+        return value.getType() == EntityType.EMPTY;
     }
 
-    public void Empty(){
+    public void empty(){
         value = new EmptyField();
     }
 

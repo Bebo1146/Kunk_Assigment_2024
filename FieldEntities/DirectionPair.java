@@ -3,11 +3,11 @@ package FieldEntities;
 import Area.Field;
 
 public class DirectionPair {
-    public Field GetDirection() {
+    public Field getDirection() {
         return direction;
     }
     
-    public Field GetOppositeDirection() {
+    public Field getOppositeDirection() {
         return oppositeDirection;
     }
 

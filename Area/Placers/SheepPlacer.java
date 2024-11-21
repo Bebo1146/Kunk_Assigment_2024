@@ -17,53 +17,53 @@ public class SheepPlacer {
         placedSheeps = new ArrayList<>();
     }
 
-    public ArrayList<Juh> GetPlacedSheeps(){
+    public ArrayList<Juh> getPlacedSheeps(){
         if(!areSheepsPlaced){
-            throw new UnsupportedOperationException("Sheeps are not placed yet.");
+            throw new UnsupportedOperationException("Juhok még nincsenek elhelyezve.");
         }
 
         return placedSheeps;
     }
 
-    public Area PlaceSheeps(){
+    public Area placeSheeps(){
         areSheepsPlaced = true;
         
         SheepPlaces sheepPlaces = new SheepPlaces(area);
 
-        IndexPair sheepsStart = sheepPlaces.GetStart();
-        IndexPair sheepsFinish = sheepPlaces.GetFinish();
+        IndexPair sheepsStart = sheepPlaces.getStart();
+        IndexPair sheepsFinish = sheepPlaces.getFinish();
 
-        AddSheepsTo(area, sheepsStart, sheepsFinish);
+        addSheepsTo(area, sheepsStart, sheepsFinish);
 
         return area;
     }
 
-    private void AddSheepsTo(Area area, IndexPair sheepsStart, IndexPair sheepsFinish){
-        int x = sheepsStart.GetX();
-        while(x < sheepsFinish.GetX()){
-            AddSheepsVerticalyTo(area, sheepsStart.GetY(), sheepsFinish.GetY(), x);
+    private void addSheepsTo(Area area, IndexPair sheepsStart, IndexPair sheepsFinish){
+        int x = sheepsStart.getX();
+        while(x < sheepsFinish.getX()){
+            addSheepsVerticalyTo(area, sheepsStart.getY(), sheepsFinish.getY(), x);
             x++;
         }
     }
 
-    private void AddSheepsVerticalyTo(Area area, int fromY, int toY, int x){
+    private void addSheepsVerticalyTo(Area area, int fromY, int toY, int x){
         int counter = fromY;
         while(counter < toY && amountOfSheeps > 0){
             IndexPair position = new IndexPair(x, counter);
             
-            Juh juh = new Juh(CreateIdFrom(), area, position, waitTimeMilliseconds);
+            Juh juh = new Juh(createIdFrom(), area, position, waitTimeMilliseconds);
             placedSheeps.add(juh);
 
-            Field field = new Field(position.GetX(), position.GetY(), juh, true);
+            Field field = new Field(position.getX(), position.getY(), juh, true);
 
-            area.AddTypeTo(position, field);
+            area.addTypeTo(position, field);
             counter++;
             amountOfSheeps--;
             idCounter++;
         }
     }
 
-    private char CreateIdFrom(){
+    private char createIdFrom(){
         return (char) ('A' + idCounter);
     }
 

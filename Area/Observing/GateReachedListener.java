@@ -1,22 +1,26 @@
 package Area.Observing;
 
 public class GateReachedListener implements IGateReachedListener {
-    public boolean IsGateReached;
+    
+    public boolean getIsGateReached() {
+        return isGateReached;
+    }
 
     public GateReachedListener() {
-        IsGateReached = false;
+        isGateReached = false;
         isFirst = true;
     }
 
     @Override
-    public void OnGateReached(GateReachedEvent event) {
+    public void onGateReached(GateReachedEvent event) {
         if (isFirst) {
             System.out.println("Juh " + event.getJuh().getName() + " has reached the gate!");
             isFirst = false;   
         }
 
-        IsGateReached = true;
+        isGateReached = true;
     }
 
+    private boolean isGateReached;
     private boolean isFirst;
 }

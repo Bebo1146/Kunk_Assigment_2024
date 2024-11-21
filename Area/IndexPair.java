@@ -3,11 +3,11 @@ package Area;
 import java.util.Objects;
 
 public class IndexPair {
-    public int GetX() {
+    public int getX() {
         return x;
     }
 
-    public int GetY() {
+    public int getY() {
         return y;
     }
 
@@ -27,7 +27,7 @@ public class IndexPair {
         }
 
         IndexPair indexPair = (IndexPair)o;
-        return (x == indexPair.GetX()) && (y == indexPair.GetY());
+        return (x == indexPair.getX()) && (y == indexPair.getY());
     }
 
     @Override
@@ -35,6 +35,6 @@ public class IndexPair {
         return Objects.hash(x, y);
     }
 
-    public final int x;
-    public final int y;
+    private final int x;
+    private final int y;
 }

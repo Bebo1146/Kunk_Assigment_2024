@@ -11,7 +11,7 @@ public class Fal extends Thread implements FieldEntity {
     }
 
     @Override
-    public EntityType GetType() {
+    public EntityType getType() {
         return EntityType.WALL;
     }
 }

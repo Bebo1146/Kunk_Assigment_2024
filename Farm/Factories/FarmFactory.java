@@ -5,7 +5,7 @@ import Area.Area;
 import Farm.Farm;
 
 public class FarmFactory {
-    public static Farm Create(int length, int width, int numberOfDogs,
+    public static Farm create(int length, int width, int numberOfDogs,
         int numberOfSheeps, int waitTimeForSheepsMilliseconds ,int waitTimeForDogsMilliseconds) 
     {
         if ((length % 3 != 0) || (width % 3 != 0)) {
@@ -13,14 +13,14 @@ public class FarmFactory {
         }
 
         Area area = 
-            CreateAreaForFarm(length + Adjustment.Value, width + Adjustment.Value)
-            .AddAmountOfSheeps(numberOfSheeps, waitTimeForSheepsMilliseconds)
-            .AddAmountOfDogs(numberOfDogs, waitTimeForDogsMilliseconds);
+            createAreaForFarm(length + Adjustment.VALUE, width + Adjustment.VALUE)
+            .addAmountOfSheeps(numberOfSheeps, waitTimeForSheepsMilliseconds)
+            .addAmountOfDogs(numberOfDogs, waitTimeForDogsMilliseconds);
 
         return new Farm(area);
     }
 
-    private static Area CreateAreaForFarm(int length, int width) {
+    private static Area createAreaForFarm(int length, int width) {
         Area area = new Area(length, width);
 
         return area;

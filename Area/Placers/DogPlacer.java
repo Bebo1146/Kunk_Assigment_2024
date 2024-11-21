@@ -19,28 +19,26 @@ public class DogPlacer {
         placedDogs = new ArrayList<>();
     }
 
-    public ArrayList<Kutya> GetPlacedDogs(){
+    public ArrayList<Kutya> getPlacedDogs(){
         if(!areDogsPlaced){
-            throw new UnsupportedOperationException("Dogs are not placed yet.");
+            throw new UnsupportedOperationException("Kutyák még nincsenek elhelyezve.");
         }
-
-        System.out.println(placedDogs.size());
 
         return placedDogs;
     }
 
-    public Area PlaceDogs(){
+    public Area placeDogs(){
         areDogsPlaced = true;
         
         List<IndexPair> dogPositions = new ArrayList<>();
         for(int i = 0; i < amountOfDogs; i++){
-            int randomX = RandomNumberBetweenOneAnd(area.GetLength() - Adjustment.Value);
-            int randomY = RandomNumberBetweenOneAnd(area.GetWidth() - Adjustment.Value);
+            int randomX = randomNumberBetweenOneAnd(area.getLength() - Adjustment.VALUE);
+            int randomY = randomNumberBetweenOneAnd(area.getWidth() - Adjustment.VALUE);
             
-            while (area.GetField(randomX, randomY).IsSheepArea() || isDogThere(randomX, randomY, dogPositions)) 
+            while (area.getField(randomX, randomY).isSheepArea() || isDogThere(randomX, randomY, dogPositions)) 
             {
-                randomX = RandomNumberBetweenOneAnd(area.GetLength()  - Adjustment.Value);
-                randomY = RandomNumberBetweenOneAnd(area.GetWidth()  - Adjustment.Value);
+                randomX = randomNumberBetweenOneAnd(area.getLength()  - Adjustment.VALUE);
+                randomY = randomNumberBetweenOneAnd(area.getWidth()  - Adjustment.VALUE);
             }
 
             IndexPair indexPair = new IndexPair(randomX, randomY);
@@ -48,14 +46,14 @@ public class DogPlacer {
 
             Kutya kutya = new Kutya(i, area, indexPair, waitTimeMilliseconds);
             placedDogs.add(kutya);
-            Field field = new Field(indexPair.GetX(), indexPair.GetY(), kutya,  false);
-            area.AddTypeTo(indexPair, field);
+            Field field = new Field(indexPair.getX(), indexPair.getY(), kutya,  false);
+            area.addTypeTo(indexPair, field);
         }
 
         return area;
     }
 
-    private int RandomNumberBetweenOneAnd(int max){
+    private int randomNumberBetweenOneAnd(int max){
         Random rand = new Random();
         return rand.nextInt(max - 2) + 2;
     }
