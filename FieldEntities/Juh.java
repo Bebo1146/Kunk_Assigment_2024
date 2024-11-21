@@ -3,6 +3,8 @@ package FieldEntities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 import Area.Area;
 import Area.Field;
@@ -121,23 +123,26 @@ public class Juh extends Thread implements FieldEntity {
 
     private Optional<Field> tryGetPositionIncaseDogsFrom(ArrayList<DirectionPair> pairs, Field current)
     {
-        return pairs.stream()
-        .filter(fieldPair -> {
-            Field direction = fieldPair.getDirection();
-            Field opposite = fieldPair.getOppositeDirection();
+        Random random = new Random();
 
-            if (direction.isDog() && opposite.isEmpty()) {
-                if(!movementHandler.tryMove(current, opposite)){
-                    return false;
+        List<Field> filteredFields = pairs.stream()
+            .filter(fieldPair -> {
+                Field direction = fieldPair.getDirection();
+                Field opposite = fieldPair.getOppositeDirection();
+        
+                if (direction.isDog() && opposite.isEmpty()) {
+                    return movementHandler.tryMove(current, opposite);
                 }
-    
-                return true;
-            }
-
-            return false;   
-        })
-        .map(DirectionPair::getOppositeDirection)
-        .findFirst(); // maybe get random
+                return false;
+            })
+            .map(DirectionPair::getOppositeDirection)
+            .collect(Collectors.toList());
+        
+        if (filteredFields.isEmpty()) {
+            return Optional.empty();
+        }
+        
+        return Optional.of(filteredFields.get(random.nextInt(filteredFields.size())));
     }
 
     private void triggerGateReachedEvent() {
