@@ -2,7 +2,7 @@ package FieldEntities;
 
 public class EmptyField extends Thread implements FieldEntity {
     public EmptyField() {
-        this.setName(".");
+        this.setName(" ");
     }
 
     @Override

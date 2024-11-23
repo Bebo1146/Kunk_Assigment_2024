@@ -1,6 +1,7 @@
 package FieldEntities;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import Area.Area;
@@ -55,13 +56,16 @@ public class Kutya extends Thread implements FieldEntity {
 
         ArrayList<Field> possibleMoves = getPossibleMoves(up, down, right, left);
 
-        Field filedToMove = movementHelper.getFieldToMoveFrom(possibleMoves);
+        Optional<Field> filedToMove = movementHelper.getFieldToMoveFrom(possibleMoves);
 
-        if(!movementHandler.tryMove(current, filedToMove)){
-            return;
+        if(filedToMove.isPresent()){
+
+            if(!movementHandler.tryMove(current, filedToMove.get())){
+                return;
+            }
+    
+            position = new IndexPair(filedToMove.get().getX(), filedToMove.get().getY());
         }
-
-        position = new IndexPair(filedToMove.getX(), filedToMove.getY());
     }
 
     private ArrayList<Field> getPossibleMoves(Field up, Field down, Field right, Field left) {

@@ -1,9 +1,9 @@
 package FieldEntities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import Area.Area;
@@ -46,7 +46,7 @@ public class Juh extends Thread implements FieldEntity {
                 if (current.isGate()) {
                     triggerGateReachedEvent();
                     running = false;
-                    
+
                     break;
                 }
             } catch (InterruptedException e) {
@@ -93,14 +93,16 @@ public class Juh extends Thread implements FieldEntity {
             return;
         }
 
-        Field filedToMove = movementHelper.getFieldToMoveFrom(possibleMoves);
+        Optional<Field> filedToMove = movementHelper.getFieldToMoveFrom(possibleMoves);
             
-        if(!movementHandler.tryMove(current, filedToMove))
-        {
-            return;
-        }
+        if(filedToMove.isPresent()){
+            if(!movementHandler.tryMove(current, filedToMove.get()))
+            {
+                return;
+            }
 
-        position = new IndexPair(filedToMove.getX(), filedToMove.getY());   
+            position = new IndexPair(filedToMove.get().getX(), filedToMove.get().getY());   
+        }
     }
 
     private ArrayList<Field> getPossibleMoves(Field up, Field down, Field right, Field left) {
@@ -123,8 +125,6 @@ public class Juh extends Thread implements FieldEntity {
 
     private Optional<Field> tryGetPositionIncaseDogsFrom(ArrayList<DirectionPair> pairs, Field current)
     {
-        Random random = new Random();
-
         List<Field> filteredFields = pairs.stream()
             .filter(fieldPair -> {
                 Field direction = fieldPair.getDirection();
@@ -133,6 +133,7 @@ public class Juh extends Thread implements FieldEntity {
                 if (direction.isDog() && opposite.isEmpty()) {
                     return movementHandler.tryMove(current, opposite);
                 }
+
                 return false;
             })
             .map(DirectionPair::getOppositeDirection)
@@ -142,7 +143,8 @@ public class Juh extends Thread implements FieldEntity {
             return Optional.empty();
         }
         
-        return Optional.of(filteredFields.get(random.nextInt(filteredFields.size())));
+        Collections.shuffle(filteredFields);
+        return Optional.of(filteredFields.get(0));
     }
 
     private void triggerGateReachedEvent() {

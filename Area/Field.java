@@ -77,8 +77,13 @@ public class Field {
         return value.getType() == EntityType.EMPTY;
     }
 
-    public void empty(){
-        value = new EmptyField();
+    public void empty() {
+        writeLock.lock();
+        try {
+            value = new EmptyField();
+        } finally {
+            writeLock.unlock();
+        }
     }
 
     @Override
@@ -86,8 +91,8 @@ public class Field {
         return value.toString();
     }
 
-    public final int x;
-    public final int y;
+    private final int x;
+    private final int y;
     private final boolean isSheepArea;
     private FieldEntity value;
     private final ReadWriteLock readWriteLock;

@@ -20,6 +20,9 @@ class Program {
         farm.startMovingSheeps(gateReachedListener);
         farm.startMovingDogs();
 
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+
         while (!gateReachedListener.getIsGateReached()) {
             System.out.print("\u001B[0;0H");
             System.out.flush();
@@ -32,6 +35,15 @@ class Program {
                 e.printStackTrace();
             }
         }
+
+        System.out.print("\u001B[0;0H");
+        System.out.flush();
+
+        farm.displayArea();
+
+        System.out.println();
+        System.out.println(gateReachedListener.getWinnerMessage());
+        System.out.println();
 
         farm.stopMovingSheeps();
         farm.stopMovingDogs();

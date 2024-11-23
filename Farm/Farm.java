@@ -31,7 +31,7 @@ public class Farm {
     }
 
     public void stopMovingSheeps() {
-        sheepsOnArea.forEach(dog -> dog.stopRunning());
+        sheepsOnArea.forEach(sheep -> sheep.stopRunning());
     }
 
     public void stopMovingDogs() {
